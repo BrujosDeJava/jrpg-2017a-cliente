@@ -11,4 +11,12 @@ public class PaquetePersonaje extends PaquetePersonajeDom implements Serializabl
 		
 		estado = Estado.estadoOffline;
 	}
+	public int getEstado() {
+		return estado;
+	}
+	public void setEstado(int estado) {
+		this.estado = estado;
+	}
+	
+	
 }
