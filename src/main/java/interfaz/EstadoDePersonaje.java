@@ -26,7 +26,7 @@ public class EstadoDePersonaje {
 
 		g.drawImage(miniaturaPersonaje, x + 10, y + 9, ANCHOMINIATURA, ALTOMINIATURA, null);
 		
-		if(personaje.getSalud() == personaje.getSaludTope()) {
+		if(personaje.getSalud() == personaje.getSaludTotal()) {
 			drawBarra = ANCHOBARRA;
 		} else {
 			drawBarra = (personaje.getSalud() * ANCHOBARRA) / personaje.getSaludTope();
@@ -37,7 +37,7 @@ public class EstadoDePersonaje {
 		g.drawImage(Recursos.barraSalud,  x + 80, y + 26, drawBarra, ALTOSALUD, null);
 		g.drawString(String.valueOf(personaje.getSalud()) + " / " + String.valueOf(personaje.getSaludTope()), x + 132, y + 37);
 		
-		if(personaje.getEnergia() == personaje.getEnergiaTope()) {
+		if(personaje.getEnergia() == personaje.getEnergiaTotal()) {
 			drawBarra = ANCHOBARRA;
 		} else {
 			drawBarra = (personaje.getEnergia() * ANCHOBARRA) / personaje.getEnergiaTope();

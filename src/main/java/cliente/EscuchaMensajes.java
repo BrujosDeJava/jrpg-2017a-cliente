@@ -101,7 +101,7 @@ public class EscuchaMensajes extends Thread {
 				}	
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Fallo la conexi�n con el servidor.");
+			JOptionPane.showMessageDialog(null, "Fallo la conexion con el servidor.");
 			e.printStackTrace();
 		}
 	}
