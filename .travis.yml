@@ -1,7 +1,17 @@
 language: java
+
 jdk:
+
   - oraclejdk7
+
   - openjdk7
 
+  
+
 before_install:
-  - wget -P $TRAVIS_BUILD_DIR/ https://www.dropbox.com/s/9i4rekp3msyfs8c/JRPG-Dominio.jar?dl=0
+
+ - pwd
+ - ls
+ - wget -P "/home/travis/build/BrujosDeJava/jrpg-2017a-cliente/" https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar
+ - chmod +x gradlew
+ - git clone https://github.com/BrujosDeJava/jrpg-2017a-dominio.git /home/travis/build/BrujosDeJava/jrpg-2017a-dominio
