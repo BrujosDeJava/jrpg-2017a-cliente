@@ -2,11 +2,8 @@ package mensajeria;
 
 import java.io.Serializable;
 
-import estados.Estado;
+public class PaquetePersonajeDom extends Paquete implements Serializable, Cloneable {
 
-public class PaquetePersonaje extends Paquete implements Serializable, Cloneable {
-
-	private int estado;
 	private int id;
 	private int idMapa;
 	private String casta;
@@ -138,17 +135,5 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 		obj = super.clone();
 		return obj;
 	}
-	
-	public PaquetePersonaje() {
-		
-		estado = Estado.estadoOffline;
-	}
-	public int getEstado() {
-		return estado;
-	}
-	public void setEstado(int estado) {
-		this.estado = estado;
-	}
-	
-	
 }
+

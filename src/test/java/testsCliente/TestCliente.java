@@ -28,9 +28,7 @@ public class TestCliente {
 
 		// Pasado este punto la conexi�n entre el cliente y el servidor resulto exitosa
 		Assert.assertEquals(1, 1);
-
 		try {
-
 			// Cierro las conexiones
 			Paquete p = new Paquete();
 			p.setComando(Comando.DESCONECTAR);
