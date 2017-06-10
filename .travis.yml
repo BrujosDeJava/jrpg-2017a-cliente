@@ -13,4 +13,5 @@ before_install:
  - pwd
  - ls
  - wget -P "/home/travis/build/BrujosDeJava/jrpg-2017a-cliente/" https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar
+ - chmod +x gradlew
  - git clone https://github.com/BrujosDeJava/jrpg-2017a-dominio.git /home/travis/build/BrujosDeJava/jrpg-2017a-dominio
