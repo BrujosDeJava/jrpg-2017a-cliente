@@ -3,6 +3,7 @@ package mensajeria;
 import java.io.Serializable;
 
 import estados.Estado;
+import dominio.Inventario;
 
 public class PaquetePersonaje extends Paquete implements Serializable, Cloneable {
 
@@ -19,7 +20,17 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	private int inteligencia;
 	private int nivel;
 	private int experiencia;
+	private Inventario inv;
+	
+	
 
+	public Inventario getInv() {
+		return inv;
+	}
+
+	public void setInv(Inventario inv) {
+		this.inv = inv;
+	}
 
 	public int getMapa(){
 		return idMapa;
