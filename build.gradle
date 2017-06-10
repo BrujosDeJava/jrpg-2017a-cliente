@@ -1,4 +1,4 @@
-﻿apply plugin: 'java'
+apply plugin: 'java'
 apply plugin: 'eclipse'
 
 apply plugin: 'checkstyle'
@@ -11,8 +11,7 @@ sourceCompatibility = 1.7
 version = '0.1'
 test.ignoreFailures = true
 
-defaultTasks 'clean', 'compileJava', 'test', 'fatJar' , 'checkstyleMain', 'pmd', 'findbugsMain', 'jacocoTestReport'
-
+defaultTasks 'clean', 'compileJava', 'fatJar', 'test', 'checkstyleMain', 'pmd', 'findbugsMain', 'jacocoTestReport'
 sourceSets {
     main {
         java {
@@ -25,8 +24,6 @@ sourceSets {
         }
     }
  }
-
-
 repositories {
 	mavenCentral()
 }
@@ -36,11 +33,11 @@ configurations {
 }
 
 dependencies {
+	compile files('gson-2.8.0.jar','Recursos.jar','Dominio.jar')
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    
     testCompile group: 'junit', name: 'junit', version: '4.+'
     pmdConf group: 'pmd', name: 'pmd', version: '4.3'
-    compile files('gson-2.8.0.jar')
-    compile files('jrpg-dominio-0.1.jar')
 }
 
 /*buildscript {
@@ -49,18 +46,11 @@ dependencies {
 	}
 	dependencies {
 		classpath group: 'net.saliman', name: 'gradle-cobertura-plugin', version: '1.1.0'
-		
 	}
 }*/
 
 // Tareas
 
-test {
-    SecurityManager manager = System.getSecurityManager();
-    if (manager == null) {
-        println("there is no security manager!");
-    }
-}
 
 checkstyle {
 	configFile = new File(rootDir, "src/test/resources/sun_checks.xml")
@@ -104,33 +94,34 @@ task pmd (dependsOn: compileJava) << {
     }
 }
 
+findbugs {
+    ignoreFailures = true
+}
+
 task fatJar(type: Jar) {
 	manifest { 
     	attributes "Main-Class": "frames.MenuInicio"
   	}
 
-    baseName = 'jrpg-cliente'
+    baseName = project.name
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     from('src/main/java/frames') {
     	include '*.png'
     	include '*.jpg'
     	into 'frames'
   	}
+  	from(rootDir) {
+  		include 'config.txt'
+  	}
  	
     with jar
 }
-
-findbugs {
-    ignoreFailures = true
-    toolVersion = "2.0.1"
-}
-
 
 jacocoTestReport {
     reports {
         xml.enabled false
         csv.enabled true
-        html.enabled false
+        html.enabled true
         //html.destination "${buildDir}/jacocoHtml"
     }
 }
