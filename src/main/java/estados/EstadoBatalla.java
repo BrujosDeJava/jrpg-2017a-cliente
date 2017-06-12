@@ -15,6 +15,7 @@ import dominio.Elfo;
 import dominio.Guerrero;
 import dominio.Hechicero;
 import dominio.Humano;
+import dominio.Inventario;
 import dominio.Orco;
 import dominio.Personaje;
 import interfaz.EstadoDePersonaje;
@@ -261,29 +262,30 @@ public class EstadoBatalla extends Estado {
 		try {
 			juego.getCliente().getSalida().writeObject(gson.toJson(paqueteFinalizarBatalla));
 			
-			paquetePersonaje.setSaludTope(personaje.getSaludTope());
-			paquetePersonaje.setEnergiaTope(personaje.getEnergiaTope());
+			paquetePersonaje.setSaludTope(personaje.getSaludTotal());
+			paquetePersonaje.setEnergiaTope(personaje.getEnergiaTotal());
 			paquetePersonaje.setNivel(personaje.getNivel());
 			paquetePersonaje.setExperiencia(personaje.getExperiencia());
 			paquetePersonaje.setDestreza(personaje.getDestreza());
 			paquetePersonaje.setFuerza(personaje.getFuerza());
 			paquetePersonaje.setInteligencia(personaje.getInteligencia());
+			paquetePersonaje.setInv(personaje.getInventario());
 			
-			paqueteEnemigo.setSaludTope(enemigo.getSaludTope());
-			paqueteEnemigo.setEnergiaTope(enemigo.getEnergiaTope());
+			paqueteEnemigo.setSaludTope(enemigo.getSaludTotal());
+			paqueteEnemigo.setEnergiaTope(enemigo.getEnergiaTotal());
 			paqueteEnemigo.setNivel(enemigo.getNivel());
 			paqueteEnemigo.setExperiencia(enemigo.getExperiencia());
 			paqueteEnemigo.setDestreza(enemigo.getDestreza());
 			paqueteEnemigo.setFuerza(enemigo.getFuerza());
 			paqueteEnemigo.setInteligencia(enemigo.getInteligencia());
+			paqueteEnemigo.setInv(enemigo.getInventario());
 			
 			paquetePersonaje.setComando(Comando.ACTUALIZARPERSONAJE);
 			paqueteEnemigo.setComando(Comando.ACTUALIZARPERSONAJE);
-			
 			juego.getCliente().getSalida().writeObject(gson.toJson(paquetePersonaje));
 			juego.getCliente().getSalida().writeObject(gson.toJson(paqueteEnemigo));
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Fallo la conexi�n con el servidor.");
+			JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor.");
 			e.printStackTrace();
 		}
 	}

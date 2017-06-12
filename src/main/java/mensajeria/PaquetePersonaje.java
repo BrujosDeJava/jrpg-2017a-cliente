@@ -2,8 +2,8 @@ package mensajeria;
 
 import java.io.Serializable;
 
-import estados.Estado;
 import dominio.Inventario;
+import estados.Estado;
 
 public class PaquetePersonaje extends Paquete implements Serializable, Cloneable {
 
@@ -21,7 +21,6 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	private int nivel;
 	private int experiencia;
 	private Inventario inv;
-	
 	
 
 	public Inventario getInv() {
@@ -151,7 +150,7 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	}
 	
 	public PaquetePersonaje() {
-		
+		inv = new Inventario();
 		estado = Estado.estadoOffline;
 	}
 	public int getEstado() {
@@ -159,6 +158,14 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	}
 	public void setEstado(int estado) {
 		this.estado = estado;
+	}
+
+	@Override
+	public String toString() {
+		return "PaquetePersonaje [estado=" + estado + ", id=" + id + ", idMapa=" + idMapa + ", casta=" + casta
+				+ ", nombre=" + nombre + ", raza=" + raza + ", saludTope=" + saludTope + ", energiaTope=" + energiaTope
+				+ ", fuerza=" + fuerza + ", destreza=" + destreza + ", inteligencia=" + inteligencia + ", nivel="
+				+ nivel + ", experiencia=" + experiencia + ", inv=" + inv + "]";
 	}
 	
 	
