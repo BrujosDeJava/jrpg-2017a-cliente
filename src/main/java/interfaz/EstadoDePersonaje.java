@@ -73,10 +73,10 @@ public class EstadoDePersonaje {
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		g.drawImage(Recursos.barraSalud, x + 80, y + 26, ANCHOBARRA, ALTOSALUD, null);
-		g.drawString(String.valueOf(personaje.getSaludTope()) + " / " + String.valueOf(personaje.getSaludTope()), x + 132, y + 37);
+		g.drawString(String.valueOf(personaje.getSaludTope()+personaje.getInv().getSalud()) + " / " + String.valueOf(personaje.getSaludTope()+personaje.getInv().getSalud()), x + 132, y + 37);
 
 		g.drawImage(Recursos.barraEnergia, x + 80, y + 42, ANCHOBARRA, ALTOENERGIA, null);
-		g.drawString(String.valueOf(personaje.getEnergiaTope()) + " / " + String.valueOf(personaje.getEnergiaTope()), x + 132, y + 52);
+		g.drawString(String.valueOf(personaje.getEnergiaTope()+personaje.getInv().getEnergia()) + " / " + String.valueOf(personaje.getEnergiaTope()+personaje.getInv().getEnergia()), x + 132, y + 52);
 
 		if(personaje.getExperiencia() == Personaje.tablaDeNiveles[personaje.getNivel() + 1]) {
 			drawBarra = ANCHOBARRA;

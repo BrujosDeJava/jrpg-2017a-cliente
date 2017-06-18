@@ -16,6 +16,7 @@ import dominio.Guerrero;
 import dominio.Hechicero;
 import dominio.Humano;
 import dominio.Inventario;
+import dominio.Item;
 import dominio.Orco;
 import dominio.Personaje;
 import interfaz.EstadoDePersonaje;
@@ -141,8 +142,6 @@ public class EstadoBatalla extends Estado {
 						haySpellSeleccionada = true;
 					}
 				}
-
-
 				if (haySpellSeleccionada && seRealizoAccion) {
 					if (!enemigo.estaVivo()) {
 						juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(), MenuInfoPersonaje.menuGanarBatalla);
@@ -150,16 +149,17 @@ public class EstadoBatalla extends Estado {
 							juego.getPersonaje().setNivel(personaje.getNivel());
 							juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(), MenuInfoPersonaje.menuSubirNivel);
 						}
+						personaje.recibirObjeto(Item.generarItem());
 						finalizarBatalla();
 						Estado.setEstado(juego.getEstadoJuego());
-					} else {
+					} else {	
 						paqueteAtacar = new PaqueteAtacar(paquetePersonaje.getId(), paqueteEnemigo.getId(), personaje.getSalud(), personaje.getEnergia(), enemigo.getSalud(), enemigo.getEnergia());
 						enviarAtaque(paqueteAtacar);
 						miTurno = false;
 						menuBatalla.setHabilitado(false);
 					}
 				} else if(haySpellSeleccionada && !seRealizoAccion){
-					JOptionPane.showMessageDialog(null, "No posees la energ�a suficiente para realizar esta habilidad.");
+					JOptionPane.showMessageDialog(null, "No posees la energía suficiente para realizar esta habilidad.");
 				}
 
 				juego.getHandlerMouse().setNuevoClick(false);
@@ -188,6 +188,7 @@ public class EstadoBatalla extends Estado {
 	}
 	
 	private void crearPersonajes() {
+		Inventario inv = paquetePersonaje.getInv();
 		String nombre = paquetePersonaje.getNombre();
 		int salud = paquetePersonaje.getSaludTope();
 		int energia = paquetePersonaje.getEnergiaTope();
@@ -197,7 +198,6 @@ public class EstadoBatalla extends Estado {
 		int experiencia = paquetePersonaje.getExperiencia();
 		int nivel = paquetePersonaje.getNivel();
 		int id = paquetePersonaje.getId();
-
 		Casta casta = null;
 		if (paquetePersonaje.getCasta().equals("Guerrero")) {
 			casta = new Guerrero();
@@ -206,7 +206,6 @@ public class EstadoBatalla extends Estado {
 		} else if (paquetePersonaje.getCasta().equals("Asesino")) {
 			casta = new Asesino();
 		}
-
 		if (paquetePersonaje.getRaza().equals("Humano")) {
 			personaje = new Humano(nombre, salud, energia, fuerza, destreza, inteligencia, casta, 
 				experiencia, nivel, id);
@@ -218,6 +217,9 @@ public class EstadoBatalla extends Estado {
 					experiencia, nivel, id);
 		}
 
+		
+		Inventario inv2 = paqueteEnemigo.getInv();
+
 		nombre = paqueteEnemigo.getNombre();
 		salud = paqueteEnemigo.getSaludTope();
 		energia = paqueteEnemigo.getEnergiaTope();
@@ -227,7 +229,6 @@ public class EstadoBatalla extends Estado {
 		experiencia = paqueteEnemigo.getExperiencia();
 		nivel = paqueteEnemigo.getNivel();
 		id = paqueteEnemigo.getId();
-
 		casta = null;
 		if (paqueteEnemigo.getCasta().equals("Guerrero")) {
 			casta = new Guerrero();
@@ -236,7 +237,8 @@ public class EstadoBatalla extends Estado {
 		} else if (paqueteEnemigo.getCasta().equals("Asesino")) {
 			casta = new Asesino();
 		}
-
+		
+		
 		if (paqueteEnemigo.getRaza().equals("Humano")) {
 			enemigo = new Humano(nombre, salud, energia, fuerza, destreza, inteligencia, casta,
 					experiencia, nivel, id);
@@ -247,6 +249,12 @@ public class EstadoBatalla extends Estado {
 			enemigo = new Elfo(nombre, salud, energia, fuerza, destreza, inteligencia, casta,
 					experiencia, nivel, id);
 		}
+		personaje.setInventario(inv);
+		enemigo.setInventario(inv2);
+		personaje.restablecerEnergia();
+		personaje.restablecerSalud();
+		enemigo.restablecerEnergia();
+		enemigo.restablecerSalud();
 	}
 
 	public void enviarAtaque(PaqueteAtacar paqueteAtacar) {
@@ -262,23 +270,25 @@ public class EstadoBatalla extends Estado {
 		try {
 			juego.getCliente().getSalida().writeObject(gson.toJson(paqueteFinalizarBatalla));
 			
-			paquetePersonaje.setSaludTope(personaje.getSaludTotal());
-			paquetePersonaje.setEnergiaTope(personaje.getEnergiaTotal());
+			paquetePersonaje.setSaludTope(personaje.getSaludTope());
+			paquetePersonaje.setEnergiaTope(personaje.getEnergiaTope());
 			paquetePersonaje.setNivel(personaje.getNivel());
 			paquetePersonaje.setExperiencia(personaje.getExperiencia());
 			paquetePersonaje.setDestreza(personaje.getDestreza());
 			paquetePersonaje.setFuerza(personaje.getFuerza());
 			paquetePersonaje.setInteligencia(personaje.getInteligencia());
-			paquetePersonaje.setInv(personaje.getInventario());
 			
-			paqueteEnemigo.setSaludTope(enemigo.getSaludTotal());
-			paqueteEnemigo.setEnergiaTope(enemigo.getEnergiaTotal());
+			
+			paquetePersonaje.setInv(personaje.getInventario());
+			paqueteEnemigo.setSaludTope(enemigo.getSaludTope());
+			paqueteEnemigo.setEnergiaTope(enemigo.getEnergiaTope());
 			paqueteEnemigo.setNivel(enemigo.getNivel());
 			paqueteEnemigo.setExperiencia(enemigo.getExperiencia());
 			paqueteEnemigo.setDestreza(enemigo.getDestreza());
 			paqueteEnemigo.setFuerza(enemigo.getFuerza());
 			paqueteEnemigo.setInteligencia(enemigo.getInteligencia());
 			paqueteEnemigo.setInv(enemigo.getInventario());
+			
 			
 			paquetePersonaje.setComando(Comando.ACTUALIZARPERSONAJE);
 			paqueteEnemigo.setComando(Comando.ACTUALIZARPERSONAJE);

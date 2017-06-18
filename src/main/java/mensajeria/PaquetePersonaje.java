@@ -3,6 +3,7 @@ package mensajeria;
 import java.io.Serializable;
 
 import dominio.Inventario;
+import dominio.Item;
 import estados.Estado;
 
 public class PaquetePersonaje extends Paquete implements Serializable, Cloneable {
@@ -159,7 +160,10 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	public void setEstado(int estado) {
 		this.estado = estado;
 	}
-
+	public void ganarUnItem(Item i){
+		System.out.println("Entro ganarUnItem");
+		this.inv.añadir(i);
+	}
 	@Override
 	public String toString() {
 		return "PaquetePersonaje [estado=" + estado + ", id=" + id + ", idMapa=" + idMapa + ", casta=" + casta
