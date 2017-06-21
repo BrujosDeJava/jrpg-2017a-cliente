@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.font.FontRenderContext;
@@ -15,10 +17,12 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 import com.google.gson.Gson;
 
 import cliente.Cliente;
+import dominio.Inventario;
 import frames.MenuJugar;
 import mensajeria.Comando;
 import mensajeria.Paquete;
@@ -27,7 +31,7 @@ public class Pantalla {
 
 	private JFrame pantalla;
 	private Canvas canvas;
-
+	private VentanaInventario v;
 	private final Gson gson = new Gson();
 
 	public Pantalla(final String NOMBRE, final int ANCHO, final int ALTO, final Cliente cliente) {
@@ -52,13 +56,35 @@ public class Pantalla {
 					cliente.getSocket().close();
 					System.exit(0);
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "Fallo al intentar cerrar la aplicación.");
+					JOptionPane.showMessageDialog(null, "Fallo al intentar cerrar la aplicaciï¿½n.");
 					System.exit(1);
 					e.printStackTrace();
 				}
 			}
 		});
-
+		
+		pantalla.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent e) {				
+			}
+			@Override
+			public void keyReleased(KeyEvent arg0) {				
+			}
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyChar()=='i'&&v==null){
+					v = new VentanaInventario(cliente.getPaquetePersonaje());
+					v.setVisible(true);
+					v.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+					
+				}
+				else
+					if(v.isVisible())
+						v.setVisible(false);
+					else
+						v.setVisible(true);
+			}
+        });
 		pantalla.setLocationRelativeTo(null);
 		pantalla.setVisible(false);
 
