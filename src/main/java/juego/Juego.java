@@ -72,7 +72,7 @@ public class Juego implements Runnable {
 	}
 
 	public void iniciar() { // Carga lo necesario para iniciar el juego
-		pantalla = new Pantalla(NOMBRE, ANCHO, ALTO, cliente);
+		pantalla = new Pantalla(NOMBRE, ANCHO, ALTO, cliente, this);
 
 		pantalla.getCanvas().addMouseListener(handlerMouse);
 

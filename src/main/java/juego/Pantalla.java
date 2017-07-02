@@ -34,8 +34,11 @@ public class Pantalla {
 	private VentanaInventario v;
 	private final Gson gson = new Gson();
 
-	public Pantalla(final String NOMBRE, final int ANCHO, final int ALTO, final Cliente cliente) {
+	public Pantalla(final String NOMBRE, final int ANCHO, final int ALTO, final Cliente cliente, Juego juego) {
 		pantalla = new JFrame(NOMBRE);
+		
+		v = new VentanaInventario(juego.getPersonaje());
+		v.setVisible(false);
 		
 		pantalla.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
 			new ImageIcon(MenuJugar.class.getResource("/cursor.png")).getImage(),
@@ -72,17 +75,16 @@ public class Pantalla {
 			}
 			@Override
 			public void keyTyped(KeyEvent e) {
-				if(e.getKeyChar()=='i'&&v==null){
-					v = new VentanaInventario(cliente.getPaquetePersonaje());
+				if(e.getKeyChar()=='i'){
+					if(!v.isVisible()){
+					v = new VentanaInventario(juego.getPersonaje());
 					v.setVisible(true);
-					v.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-					
-				}
-				else
-					if(v.isVisible())
+					v.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+					}
+					else{
 						v.setVisible(false);
-					else
-						v.setVisible(true);
+					}
+				}
 			}
         });
 		pantalla.setLocationRelativeTo(null);
