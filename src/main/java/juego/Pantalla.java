@@ -25,6 +25,7 @@ import cliente.Cliente;
 import frames.MenuJugar;
 import mensajeria.Comando;
 import mensajeria.Paquete;
+import mundo.Mundo;
 
 public class Pantalla {
 
@@ -74,7 +75,15 @@ public class Pantalla {
 			}
 			@Override
 			public void keyTyped(KeyEvent e) {
+				float[] pos = Mundo.isoA2D(juego.getUbicacionPersonaje().getPosX(), juego.getUbicacionPersonaje().getPosY());
+				double x = pos[0];
+				double y = pos[1];
+				
+				
 				if(e.getKeyChar()=='i'){
+					System.out.println("X: "+x
+										+"\tY: "+y);
+					
 					if(!v.isVisible()){
 					v = new VentanaInventario(juego.getPersonaje());
 					v.setVisible(true);
@@ -84,6 +93,14 @@ public class Pantalla {
 						v.setVisible(false);
 					}
 				}
+				
+				if(e.getKeyChar()=='m'){
+
+					if((x<=16&&x>=8)&&(y<=28&&y>=11))
+					
+					System.out.println("Estas en el mercado");
+				}
+					
 			}
         });
 		pantalla.setLocationRelativeTo(null);

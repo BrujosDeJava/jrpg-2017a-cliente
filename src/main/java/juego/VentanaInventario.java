@@ -27,6 +27,9 @@ import dominio.Inventario;
 import dominio.Item;
 import frames.MenuJugar;
 import mensajeria.PaquetePersonaje;
+import javax.swing.JList;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 
 public class VentanaInventario extends JFrame {
 
@@ -50,8 +53,19 @@ public class VentanaInventario extends JFrame {
 						auxi.setAtaque(i);
 						auxi.setDefensa(i);
 						auxi.setEnergia(i);
+						auxi.setTipo(i+1);
 						aux.añadir(auxi);
 						}
+					for(int i=0;i<6;i++){
+						Item auxi = new Item(i+1,i+1);
+						auxi.setNombre("item"+(i+1));
+						auxi.setAtaque(i);
+						auxi.setDefensa(i);
+						auxi.setEnergia(i);
+						auxi.setTipo(i+1);
+						aux.añadir(auxi);
+						}
+					System.out.println(aux.getMochila());
 					PaquetePersonaje pp = new PaquetePersonaje();
 					pp.setNombre("Raul");
 					pp.setCasta("Asesino");
@@ -80,7 +94,7 @@ public class VentanaInventario extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Inventario");
-		setBounds(100, 100, 270, 360);
+		setBounds(100, 100, 270, 424);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -277,13 +291,13 @@ public class VentanaInventario extends JFrame {
 				+"<br>Defensa: "+(pp.getDestreza()+inv.getDefensa())+" ("+pp.getDestreza()+"+"+inv.getDefensa()+")"
 				+"<br>Magia: "+(int)(pp.getInteligencia()*1.5+inv.getMagia())+" ("+(int)(pp.getInteligencia()*1.5)+"+"+inv.getMagia()+")</html>"
 	);
-		totalesLabel.setBounds(10, 221, 134, 91);
+		totalesLabel.setBounds(10, 293, 134, 91);
 		contentPane.add(totalesLabel);
 		
 		JLabel statsBaseLabel = new JLabel("<html>"+"Nivel: "+pp.getNivel()+"<br>Fuerza: "+pp.getFuerza()
 		+"<br>Destreza: "+pp.getDestreza()
 		+"<br>Inteligencia: "+pp.getInteligencia());
-		statsBaseLabel.setBounds(168, 221, 92, 91);
+		statsBaseLabel.setBounds(10, 220, 92, 91);
 		contentPane.add(statsBaseLabel);
 		
 		JLabel razacastaLabel = new JLabel("<html>"+pp.getCasta()+"<br>"+pp.getRaza()+"</html>",SwingConstants.CENTER);
@@ -294,7 +308,15 @@ public class VentanaInventario extends JFrame {
 		nombreLabel.setBounds(90, 11, 70, 14);
 		contentPane.add(nombreLabel);
 		
-		
+		JLabel label = new JLabel("");
+		label.setBounds(143, 222, 117, 162);
+		contentPane.add(label);
+		StringBuilder text = new StringBuilder("<html>");
+		for( Item it:pp.getInv().getMochila()){
+			text.append(it.getNombre()+"<br>");
+		}
+		text.append("</html>");
+		label.setText(text.toString());
 		this.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {				
@@ -311,6 +333,4 @@ public class VentanaInventario extends JFrame {
         });
 		
 	}
-	
-	
 }
