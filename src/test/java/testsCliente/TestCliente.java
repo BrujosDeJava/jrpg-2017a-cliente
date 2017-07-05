@@ -14,6 +14,7 @@ import cliente.Cliente;
 import mensajeria.Comando;
 import mensajeria.Paquete;
 import mensajeria.PaqueteItem;
+import mensajeria.PaqueteMensajeSala;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
 
@@ -21,6 +22,14 @@ public class TestCliente {
 
 	/// Para realizar los test es necesario iniciar el servidor
 
+	
+	@Test
+	public void testd(){
+		PaqueteMensajeSala pqs = new PaqueteMensajeSala("mesj");
+		System.out.println(pqs.getMsj2());
+	}
+	
+	
 	@Test
 	public void testConexionConElServidor() {
 		Gson gson = new Gson();
@@ -275,5 +284,8 @@ public class TestCliente {
 		} catch (JsonSyntaxException | ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
+		
+		
+		
 	}
 }

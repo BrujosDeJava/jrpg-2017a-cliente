@@ -18,6 +18,7 @@ import mensajeria.PaqueteBatalla;
 import mensajeria.PaqueteDeMovimientos;
 import mensajeria.PaqueteDePersonajes;
 import mensajeria.PaqueteFinalizarBatalla;
+import mensajeria.PaqueteMensajeSala;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 
@@ -97,6 +98,12 @@ public class EscuchaMensajes extends Thread {
 						juego.actualizarPersonaje();
 						juego.getEstadoJuego().actualizarPersonaje();
 					}
+				case Comando.SALAMSJ:
+					PaqueteMensajeSala pqs = (PaqueteMensajeSala)gson.fromJson(objetoLeido, PaqueteMensajeSala.class);
+					System.out.println("eSCUCHAMENSAJES "+pqs.getMsj2());
+
+					juego.getPantalla().getSala().actualizar(pqs);
+
 				}	
 			}
 		} catch (Exception e) {

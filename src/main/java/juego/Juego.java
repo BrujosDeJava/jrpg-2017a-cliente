@@ -21,7 +21,6 @@ public class Juego implements Runnable {
 	private final String NOMBRE;
 	private final int ANCHO;
 	private final int ALTO;
-
 	private Thread hilo;
 	private boolean corriendo;
 
@@ -220,5 +219,9 @@ public class Juego implements Runnable {
 	
 	public void actualizarPersonaje() {
 		paquetePersonaje = (PaquetePersonaje) (escuchaMensajes.getPersonajesConectados().get(paquetePersonaje.getId()).clone());
+	}
+	
+	public Pantalla getPantalla() {
+		return pantalla;
 	}
 }

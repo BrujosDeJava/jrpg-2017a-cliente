@@ -32,11 +32,13 @@ public class Pantalla {
 	private JFrame pantalla;
 	private Canvas canvas;
 	private VentanaInventario v;
+	private VentanaSala sala;
 	private final Gson gson = new Gson();
 
 	public Pantalla(final String NOMBRE, final int ANCHO, final int ALTO, final Cliente cliente, final Juego juego) {
 		pantalla = new JFrame(NOMBRE);
-		
+		sala = new VentanaSala(juego);
+		sala.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		v = new VentanaInventario(juego.getPersonaje());
 		v.setVisible(false);
 		
@@ -75,6 +77,14 @@ public class Pantalla {
 			}
 			@Override
 			public void keyTyped(KeyEvent e) {
+				if(e.getKeyChar()=='c'){
+					if(sala.isVisible())
+						sala.setVisible(false);
+					else
+						sala.setVisible(true);
+				}
+				
+				
 				float[] pos = Mundo.isoA2D(juego.getUbicacionPersonaje().getPosX(), juego.getUbicacionPersonaje().getPosY());
 				double x = pos[0];
 				double y = pos[1];
@@ -141,5 +151,9 @@ public class Pantalla {
 	    int b = (r.height / 2) - (rHeight / 2) - rY;
 	    
 	    g.drawString(s, r.x + a, r.y + b);
+	}
+	
+	public VentanaSala getSala() {
+		return sala;
 	}
 }
