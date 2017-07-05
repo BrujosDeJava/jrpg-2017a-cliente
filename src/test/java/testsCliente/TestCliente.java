@@ -13,6 +13,7 @@ import com.google.gson.JsonSyntaxException;
 import cliente.Cliente;
 import mensajeria.Comando;
 import mensajeria.Paquete;
+import mensajeria.PaqueteItem;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
 
@@ -225,7 +226,7 @@ public class TestCliente {
 		try {
 
 			// Envio el paquete de actualizacion de personaje
-			cliente.getSalida().writeObject(gson.toJson(pp));
+			cliente.getSalida().writeObject(gson.toJson(pp));			
 
 			// Recibo el paquete con el personaje actualizado
 			PaquetePersonaje paquetePersonaje = (PaquetePersonaje) gson
@@ -233,7 +234,7 @@ public class TestCliente {
 
 			// Cierro las conexiones
 			Paquete p = new Paquete();
-			p.setComando(Comando.DESCONECTAR);
+			p.setComando(Comando.DESCONECTAR	);
 			p.setIp(cliente.getMiIp());
 			cliente.getSalida().writeObject(gson.toJson(p));
 			cliente.getSalida().close();
@@ -242,6 +243,36 @@ public class TestCliente {
 
 			Assert.assertEquals(10000, paquetePersonaje.getSaludTope());
 		} catch (IOException | JsonSyntaxException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void testRecibirItem() {
+		Gson gson = new Gson();
+
+		PaqueteItem it = new PaqueteItem();
+		it.setComando(Comando.ITEM);
+		it.setId(3); /// ITEM 3 BTAS DE CUERO
+
+		Cliente cliente = new Cliente();
+
+		try {
+
+			cliente.getSalida().writeObject(gson.toJson(it));
+
+			PaqueteItem resultado = (PaqueteItem) gson.fromJson((String) cliente.getEntrada().readObject(), PaqueteItem.class);
+			
+			Paquete p = new Paquete();
+			p.setComando(Comando.DESCONECTAR);
+			p.setIp(cliente.getMiIp());
+			cliente.getSalida().writeObject(gson.toJson(p));
+			cliente.getSalida().close();
+			cliente.getEntrada().close();
+			cliente.getSocket().close();
+
+			Assert.assertEquals("Botas de cuero", resultado.getNombre());
+
+		} catch (JsonSyntaxException | ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
 	}

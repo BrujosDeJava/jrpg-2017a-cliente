@@ -8,7 +8,9 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
+import cliente.Cliente;
 import dominio.Asesino;
 import dominio.Casta;
 import dominio.Elfo;
@@ -24,9 +26,11 @@ import interfaz.MenuBatalla;
 import interfaz.MenuInfoPersonaje;
 import juego.Juego;
 import mensajeria.Comando;
+import mensajeria.Paquete;
 import mensajeria.PaqueteAtacar;
 import mensajeria.PaqueteBatalla;
 import mensajeria.PaqueteFinalizarBatalla;
+import mensajeria.PaqueteItem;
 import mensajeria.PaquetePersonaje;
 import mundo.Mundo;
 import recursos.Recursos;
@@ -41,6 +45,7 @@ public class EstadoBatalla extends Estado {
 	private PaquetePersonaje paqueteEnemigo;
 	private PaqueteAtacar paqueteAtacar;
 	private PaqueteFinalizarBatalla paqueteFinalizarBatalla;
+	private PaqueteItem paqueteItem;
 	private boolean miTurno;
 	
 	private boolean haySpellSeleccionada;
@@ -149,7 +154,7 @@ public class EstadoBatalla extends Estado {
 							juego.getPersonaje().setNivel(personaje.getNivel());
 							juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(), MenuInfoPersonaje.menuSubirNivel);
 						}
-						personaje.recibirObjeto(Item.generarItem());
+						personaje.recibirObjeto(generarObjeto());
 						finalizarBatalla();
 						Estado.setEstado(juego.getEstadoJuego());
 					} else {	
@@ -166,6 +171,39 @@ public class EstadoBatalla extends Estado {
 			}
 		}
 		
+	}
+
+	private Item generarObjeto() {
+		PaqueteItem it = new PaqueteItem();
+		it.setComando(Comando.ITEM);
+		it.setId(Item.generarItem());
+		Cliente cliente = new Cliente();
+		try {
+			cliente.getSalida().writeObject(gson.toJson(it));
+			it = (PaqueteItem) gson.fromJson((String) cliente.getEntrada().readObject(), PaqueteItem.class);
+			Paquete p = new Paquete();
+			p.setComando(Comando.DESCONECTAR);
+			p.setIp(cliente.getMiIp());
+			cliente.getSalida().writeObject(gson.toJson(p));
+			cliente.getSalida().close();
+			cliente.getEntrada().close();
+			cliente.getSocket().close();
+		} catch (JsonSyntaxException | ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Item itemAux = new Item();
+		itemAux.setId(it.getId());
+		itemAux.setAtaque(it.getBonusAtaque());
+		itemAux.setDefensa(it.getBonusDefensa());
+		itemAux.setEnergia(it.getBonusEnergia());
+		itemAux.setMagia(it.getBonusMagia());
+		itemAux.setNombre(it.getNombre());
+		itemAux.setSalud(it.getBounsSalud());
+		itemAux.setTipo(it.getTipo());
+		System.out.println(itemAux);
+		return itemAux;
 	}
 
 	@Override
@@ -278,7 +316,8 @@ public class EstadoBatalla extends Estado {
 			paquetePersonaje.setFuerza(personaje.getFuerza());
 			paquetePersonaje.setInteligencia(personaje.getInteligencia());
 			paquetePersonaje.setInv(personaje.getInventario());
-			paquetePersonaje.setNombre("raul");
+			System.out.println("La Mochila: "+paquetePersonaje.getInv().getMochila());
+			
 			paqueteEnemigo.setSaludTope(enemigo.getSaludTope());
 			paqueteEnemigo.setEnergiaTope(enemigo.getEnergiaTope());
 			paqueteEnemigo.setNivel(enemigo.getNivel());

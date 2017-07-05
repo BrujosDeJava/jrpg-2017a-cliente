@@ -22,7 +22,6 @@ import javax.swing.WindowConstants;
 import com.google.gson.Gson;
 
 import cliente.Cliente;
-import dominio.Inventario;
 import frames.MenuJugar;
 import mensajeria.Comando;
 import mensajeria.Paquete;
@@ -34,7 +33,7 @@ public class Pantalla {
 	private VentanaInventario v;
 	private final Gson gson = new Gson();
 
-	public Pantalla(final String NOMBRE, final int ANCHO, final int ALTO, final Cliente cliente, Juego juego) {
+	public Pantalla(final String NOMBRE, final int ANCHO, final int ALTO, final Cliente cliente, final Juego juego) {
 		pantalla = new JFrame(NOMBRE);
 		
 		v = new VentanaInventario(juego.getPersonaje());

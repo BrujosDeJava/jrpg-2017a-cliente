@@ -1,10 +1,15 @@
 package juego;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,29 +18,22 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import dominio.Inventario;
 import dominio.Item;
 import frames.MenuJugar;
 import mensajeria.PaquetePersonaje;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-
 public class VentanaInventario extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	/**
@@ -78,7 +76,7 @@ public class VentanaInventario extends JFrame {
 				new Point(0,0),"custom cursor"));
 		
 
-		Inventario inv = pp.getInv();
+		final Inventario inv = pp.getInv();
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Inventario");
@@ -130,7 +128,7 @@ public class VentanaInventario extends JFrame {
 		pies.setBounds(170, 140, 70, 70);
 		contentPane.add(pies);
 		
-		JLabel stats = new JLabel("");
+		final JLabel stats = new JLabel("");
 		stats.setBounds(170, 11, 90, 70);
 		contentPane.add(stats);
 		
