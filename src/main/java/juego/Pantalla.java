@@ -59,12 +59,15 @@ public class Pantalla {
 					cliente.getSocket().close();
 					System.exit(0);
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "Fallo al intentar cerrar la aplicaci�n.");
+					JOptionPane.showMessageDialog(null, "Fallo al intentar cerrar la aplicación.");
 					System.exit(1);
 					e.printStackTrace();
 				}
 			}
 		});
+		
+		
+		
 		
 		pantalla.addKeyListener(new KeyListener() {
 			@Override
@@ -102,22 +105,32 @@ public class Pantalla {
 					double y = pos[1];
 					if((x<=16&&x>=8)&&(y<=28&&y>=11)){
 						if(juego.getMercado()==null){
-							juego.setMercado(new VentanaMercado());
+							juego.setMercado(new VentanaMercado(juego));
 							PaqueteMochila paqm = new PaqueteMochila(juego.getPersonaje().getInv().getMochila(),
 									juego.getPersonaje().getId());
 							paqm.setComando(Comando.MOCHILA);
 							try {
 								juego.getCliente().getSalida().writeObject(gson.toJson(paqm));
 							} catch (IOException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 						}
 						if(juego.getMercado().isVisible()){
 							juego.getMercado().setVisible(false);
 						}
-						else
+						else{
 							juego.getMercado().setVisible(true);
+							///aca pegue paa el bug ese
+							
+							PaqueteMochila paqm = new PaqueteMochila(juego.getPersonaje().getInv().getMochila(),
+									juego.getPersonaje().getId());
+							paqm.setComando(Comando.MOCHILA);
+							try {
+								juego.getCliente().getSalida().writeObject(gson.toJson(paqm));
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+						}
 					}
 					
 				}

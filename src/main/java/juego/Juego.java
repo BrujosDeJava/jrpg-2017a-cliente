@@ -243,8 +243,9 @@ public class Juego implements Runnable {
 		this.mercado = ventanaMercado;
 		
 	}
-	
 	public Map<Integer, VentanaChat> getConversaciones() {
 		return conversaciones;
 	}
+	
+	
 }

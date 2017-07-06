@@ -7,6 +7,8 @@ import dominio.Item;
 public class PaqueteMochila extends Paquete implements Serializable, Cloneable{
 	private List<Item> mochila;
 	private int id;
+	private boolean conectar;
+	
 	public PaqueteMochila(List<Item> mochila, int id) {
 		super();
 		this.mochila = mochila;

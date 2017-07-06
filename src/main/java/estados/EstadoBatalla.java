@@ -154,7 +154,7 @@ public class EstadoBatalla extends Estado {
 							juego.getPersonaje().setNivel(personaje.getNivel());
 							juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(), MenuInfoPersonaje.menuSubirNivel);
 						}
-						personaje.recibirObjeto(generarObjeto());
+						//personaje.recibirObjeto(generarObjeto());
 						finalizarBatalla();
 						Estado.setEstado(juego.getEstadoJuego());
 					} else {	

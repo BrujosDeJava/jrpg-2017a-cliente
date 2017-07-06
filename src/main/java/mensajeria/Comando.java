@@ -20,6 +20,8 @@ public class Comando {
 	public static final int MOCHILA = 43434343;
 	public static final int RECIBIRCONECTADOS = 23161;
 	public static final int MENSAJEPRIVADO = 123123;
+	public static final int INTERCAMBIO = 666;
+	public static final int RESPUESTAINTERCAMBIO = 777;
 	
 	
 	//

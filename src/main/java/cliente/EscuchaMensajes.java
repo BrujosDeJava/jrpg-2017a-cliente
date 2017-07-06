@@ -8,10 +8,13 @@ import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
 
+import dominio.Item;
+import dominio.Mercado;
 import estados.Estado;
 import estados.EstadoBatalla;
 import juego.Juego;
 import juego.VentanaChat;
+import juego.VentanaMercado;
 import mensajeria.Comando;
 import mensajeria.Paquete;
 import mensajeria.PaqueteAtacar;
@@ -21,6 +24,7 @@ import mensajeria.PaqueteDeMovimientos;
 import mensajeria.PaqueteDePersonajes;
 import mensajeria.PaqueteFinalizarBatalla;
 import mensajeria.PaqueteInicioSesion;
+import mensajeria.PaqueteIntercambio;
 import mensajeria.PaqueteMensajeSala;
 import mensajeria.PaqueteMercado;
 import mensajeria.PaqueteMovimiento;
@@ -32,7 +36,7 @@ public class EscuchaMensajes extends Thread {
 	private Cliente cliente;
 	private ObjectInputStream entrada;
 	private final Gson gson = new Gson();
-	
+	private PaqueteIntercambio pi;
 	private Map<Integer, PaqueteMovimiento> ubicacionPersonajes;
 	private Map<Integer, PaquetePersonaje> personajesConectados;
 
@@ -110,6 +114,8 @@ public class EscuchaMensajes extends Thread {
 					break;
 				case Comando.MERCADO:
 					PaqueteMercado pmerca = (PaqueteMercado)gson.fromJson(objetoLeido, PaqueteMercado.class);
+					if(juego.getMercado()==null)
+						juego.setMercado(new VentanaMercado(juego));
 					juego.getMercado().actualizarMercado(pmerca);
 					break;
 				case Comando.RECIBIRCONECTADOS:
@@ -117,13 +123,55 @@ public class EscuchaMensajes extends Thread {
 					juego.getSala().actualizarUsuarios(pini.getUsuarios());
 					break;
 				case Comando.MENSAJEPRIVADO:
+					
+					
 					PaqueteChatPrivado pcp = (PaqueteChatPrivado) gson.fromJson(objetoLeido, PaqueteChatPrivado.class);
 					if(juego.getConversaciones().get(pcp.getUsuario().getId())==null){
+						System.out.println("EscuchaMensajes"+ pcp.getUsuario().getId());
 						juego.getConversaciones().put(pcp.getUsuario().getId(), new VentanaChat(pcp.getUsuario(),juego));
 					}
 					else
 						juego.getConversaciones().get(pcp.getUsuario().getId()).setVisible(true);
+					
+					
 					juego.getConversaciones().get(pcp.getUsuario().getId()).actualizar(pcp.getMsj());
+					break;
+					
+					
+				case Comando.INTERCAMBIO:
+					pi = (PaqueteIntercambio) gson.fromJson(objetoLeido, PaqueteIntercambio.class);
+					int respuesta = JOptionPane.showConfirmDialog(null,
+								"mi "+pi.getOfrecido().getNombre()+" por tu "+pi.getRequerido().getNombre(),"Intercambio",JOptionPane.YES_NO_OPTION);
+		        	pi.setComando(Comando.RESPUESTAINTERCAMBIO);
+					if (respuesta == JOptionPane.YES_OPTION) {
+			        	pi.setRespuesta(true);
+			        }
+			        else
+			        	pi.setRespuesta(false);
+					juego.getCliente().getSalida().writeObject(gson.toJson(pi));
+					break;
+				case Comando.RESPUESTAINTERCAMBIO:
+					pi = (PaqueteIntercambio) gson.fromJson(objetoLeido, PaqueteIntercambio.class);
+					if(pi.getRespuesta()){
+						Item aEquipar;
+						Item aDesequipar;
+						
+						if(pi.getOfrecido().getDuenio()==juego.getPersonaje().getId()){
+							aEquipar = pi.getRequerido();
+							aDesequipar = pi.getOfrecido();
+						}
+						else{
+							aDesequipar = pi.getRequerido();
+							aEquipar = pi.getOfrecido();
+						}
+						
+						juego.getPersonaje().getInv().desequipar(aDesequipar);
+						juego.getPersonaje().getInv().añadir(aEquipar);
+						
+						
+					}else
+						JOptionPane.showMessageDialog(null, "No se completo el intercambio");
+
 				}	
 			}
 		} catch (Exception e) {
