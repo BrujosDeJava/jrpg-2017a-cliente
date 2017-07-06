@@ -19,6 +19,7 @@ import mensajeria.PaqueteDeMovimientos;
 import mensajeria.PaqueteDePersonajes;
 import mensajeria.PaqueteFinalizarBatalla;
 import mensajeria.PaqueteMensajeSala;
+import mensajeria.PaqueteMercado;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 
@@ -98,12 +99,21 @@ public class EscuchaMensajes extends Thread {
 						juego.actualizarPersonaje();
 						juego.getEstadoJuego().actualizarPersonaje();
 					}
+					break;
 				case Comando.SALAMSJ:
 					PaqueteMensajeSala pqs = (PaqueteMensajeSala)gson.fromJson(objetoLeido, PaqueteMensajeSala.class);
-					System.out.println("eSCUCHAMENSAJES "+pqs.getMsj2());
 
 					juego.getPantalla().getSala().actualizar(pqs);
+					break;
+				case Comando.MERCADO:
+					PaqueteMercado pmerca = (PaqueteMercado)gson.fromJson(objetoLeido, PaqueteMercado.class);
+					
+					System.out.println(juego.getPantalla());
+					System.out.println(juego);
+					System.out.println(pmerca);
+					System.out.println(juego.getPantalla().getMercado());
 
+					juego.getPantalla().getMercado().actualizarMercado(pmerca);
 				}	
 			}
 		} catch (Exception e) {

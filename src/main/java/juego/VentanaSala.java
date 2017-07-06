@@ -60,11 +60,10 @@ public class VentanaSala extends JFrame {
 		JButton btnEnviar = new JButton("Enviar");
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String aux = textArea.getText()+juego.getPersonaje().getNombre()+": "+
+				String aux = juego.getPersonaje().getNombre()+": "+
 						textField.getText()+System.lineSeparator();
 				
 				PaqueteMensajeSala pqs = new PaqueteMensajeSala(aux);
-				System.out.println(pqs.getMsj2());
 				pqs.setComando(Comando.SALAMSJ);
 				try {
 					juego.getCliente().getSalida().writeObject(gson.toJson(pqs));
@@ -91,7 +90,7 @@ public class VentanaSala extends JFrame {
 	}
 
 	public void actualizar(PaqueteMensajeSala pqs) {
-		this.textArea.setText(pqs.getMsj2());
+		this.textArea.setText(textArea.getText()+pqs.getMsj2());
 		
 	}
 }

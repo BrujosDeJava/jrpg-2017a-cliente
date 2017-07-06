@@ -25,6 +25,7 @@ import cliente.Cliente;
 import frames.MenuJugar;
 import mensajeria.Comando;
 import mensajeria.Paquete;
+import mensajeria.PaqueteMochila;
 import mundo.Mundo;
 
 public class Pantalla {
@@ -33,11 +34,12 @@ public class Pantalla {
 	private Canvas canvas;
 	private VentanaInventario v;
 	private VentanaSala sala;
+	private VentanaMercado mercado;
 	private final Gson gson = new Gson();
 
 	public Pantalla(final String NOMBRE, final int ANCHO, final int ALTO, final Cliente cliente, final Juego juego) {
 		pantalla = new JFrame(NOMBRE);
-		sala = new VentanaSala(juego);
+		sala = new VentanaSala(juego);		
 		sala.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		v = new VentanaInventario(juego.getPersonaje());
 		v.setVisible(false);
@@ -77,6 +79,7 @@ public class Pantalla {
 			}
 			@Override
 			public void keyTyped(KeyEvent e) {
+				
 				if(e.getKeyChar()=='c'){
 					if(sala.isVisible())
 						sala.setVisible(false);
@@ -106,9 +109,26 @@ public class Pantalla {
 				
 				if(e.getKeyChar()=='m'){
 
-					if((x<=16&&x>=8)&&(y<=28&&y>=11))
+					if((x<=16&&x>=8)&&(y<=28&&y>=11)){
+						if(mercado==null){
+							mercado = new VentanaMercado();
+							PaqueteMochila paqm = new PaqueteMochila(juego.getPersonaje().getInv().getMochila(),
+									juego.getPersonaje().getId());
+							paqm.setComando(Comando.MOCHILA);
+							try {
+								juego.getCliente().getSalida().writeObject(gson.toJson(paqm));
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+						if(mercado.isVisible()){
+							mercado.setVisible(false);
+						}
+						else
+						mercado.setVisible(true);
+					}
 					
-					System.out.println("Estas en el mercado");
 				}
 					
 			}
@@ -155,5 +175,9 @@ public class Pantalla {
 	
 	public VentanaSala getSala() {
 		return sala;
+	}
+	
+	public VentanaMercado getMercado() {
+		return mercado;
 	}
 }
