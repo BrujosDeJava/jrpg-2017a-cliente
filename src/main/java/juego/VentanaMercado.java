@@ -20,7 +20,7 @@ public class VentanaMercado extends JFrame {
 
 	private JPanel contentPane;
 	private JTextPane textPane;
-
+	
 	/**
 	 * Launch the application.
 	 */

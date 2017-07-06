@@ -18,6 +18,8 @@ public class Comando {
 	public static final int SALAMSJ = 2017;
 	public static final int MERCADO = 80085;
 	public static final int MOCHILA = 43434343;
+	public static final int RECIBIRCONECTADOS = 23161;
+	public static final int MENSAJEPRIVADO = 123123;
 	
 	
 	//

@@ -33,17 +33,13 @@ public class Pantalla {
 	private JFrame pantalla;
 	private Canvas canvas;
 	private VentanaInventario v;
-	private VentanaSala sala;
-	private VentanaMercado mercado;
 	private final Gson gson = new Gson();
 
 	public Pantalla(final String NOMBRE, final int ANCHO, final int ALTO, final Cliente cliente, final Juego juego) {
 		pantalla = new JFrame(NOMBRE);
-		sala = new VentanaSala(juego);		
-		sala.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+		juego.getSala().setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		v = new VentanaInventario(juego.getPersonaje());
 		v.setVisible(false);
-		
 		pantalla.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
 			new ImageIcon(MenuJugar.class.getResource("/cursor.png")).getImage(),
 			new Point(0,0),"custom cursor"));
@@ -81,21 +77,14 @@ public class Pantalla {
 			public void keyTyped(KeyEvent e) {
 				
 				if(e.getKeyChar()=='c'){
-					if(sala.isVisible())
-						sala.setVisible(false);
+					if(juego.getSala().isVisible())
+						juego.getSala().setVisible(false);
 					else
-						sala.setVisible(true);
+						juego.getSala().setVisible(true);
 				}
-				
-				
-				float[] pos = Mundo.isoA2D(juego.getUbicacionPersonaje().getPosX(), juego.getUbicacionPersonaje().getPosY());
-				double x = pos[0];
-				double y = pos[1];
-				
+
 				
 				if(e.getKeyChar()=='i'){
-					System.out.println("X: "+x
-										+"\tY: "+y);
 					
 					if(!v.isVisible()){
 					v = new VentanaInventario(juego.getPersonaje());
@@ -108,10 +97,12 @@ public class Pantalla {
 				}
 				
 				if(e.getKeyChar()=='m'){
-
+					float[] pos = Mundo.isoA2D(juego.getUbicacionPersonaje().getPosX(), juego.getUbicacionPersonaje().getPosY());
+					double x = pos[0];
+					double y = pos[1];
 					if((x<=16&&x>=8)&&(y<=28&&y>=11)){
-						if(mercado==null){
-							mercado = new VentanaMercado();
+						if(juego.getMercado()==null){
+							juego.setMercado(new VentanaMercado());
 							PaqueteMochila paqm = new PaqueteMochila(juego.getPersonaje().getInv().getMochila(),
 									juego.getPersonaje().getId());
 							paqm.setComando(Comando.MOCHILA);
@@ -122,11 +113,11 @@ public class Pantalla {
 								e1.printStackTrace();
 							}
 						}
-						if(mercado.isVisible()){
-							mercado.setVisible(false);
+						if(juego.getMercado().isVisible()){
+							juego.getMercado().setVisible(false);
 						}
 						else
-						mercado.setVisible(true);
+							juego.getMercado().setVisible(true);
 					}
 					
 				}
@@ -173,11 +164,5 @@ public class Pantalla {
 	    g.drawString(s, r.x + a, r.y + b);
 	}
 	
-	public VentanaSala getSala() {
-		return sala;
-	}
 	
-	public VentanaMercado getMercado() {
-		return mercado;
-	}
 }

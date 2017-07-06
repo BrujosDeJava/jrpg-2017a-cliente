@@ -8,7 +8,6 @@ public class PaqueteUsuario extends Paquete implements Serializable, Cloneable {
 	private String username;
 	private String password;
 	private boolean inicioSesion;
-	private String salaPrimeraVez;
 	public PaqueteUsuario(){
 		
 	}
@@ -58,14 +57,7 @@ public class PaqueteUsuario extends Paquete implements Serializable, Cloneable {
 		return obj;
 	}
 
-	public String getSalaPrimeraVez() {
-		return salaPrimeraVez;
-	}
 
-	public void setSalaPrimeraVez(String salaPrimeraVez) {
-		this.salaPrimeraVez = salaPrimeraVez;
-	}
-	
 	
 	
 }

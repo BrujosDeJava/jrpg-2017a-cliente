@@ -11,13 +11,16 @@ import com.google.gson.Gson;
 import estados.Estado;
 import estados.EstadoBatalla;
 import juego.Juego;
+import juego.VentanaChat;
 import mensajeria.Comando;
 import mensajeria.Paquete;
 import mensajeria.PaqueteAtacar;
 import mensajeria.PaqueteBatalla;
+import mensajeria.PaqueteChatPrivado;
 import mensajeria.PaqueteDeMovimientos;
 import mensajeria.PaqueteDePersonajes;
 import mensajeria.PaqueteFinalizarBatalla;
+import mensajeria.PaqueteInicioSesion;
 import mensajeria.PaqueteMensajeSala;
 import mensajeria.PaqueteMercado;
 import mensajeria.PaqueteMovimiento;
@@ -103,17 +106,24 @@ public class EscuchaMensajes extends Thread {
 				case Comando.SALAMSJ:
 					PaqueteMensajeSala pqs = (PaqueteMensajeSala)gson.fromJson(objetoLeido, PaqueteMensajeSala.class);
 
-					juego.getPantalla().getSala().actualizar(pqs);
+					juego.getSala().actualizar(pqs);
 					break;
 				case Comando.MERCADO:
 					PaqueteMercado pmerca = (PaqueteMercado)gson.fromJson(objetoLeido, PaqueteMercado.class);
-					
-					System.out.println(juego.getPantalla());
-					System.out.println(juego);
-					System.out.println(pmerca);
-					System.out.println(juego.getPantalla().getMercado());
-
-					juego.getPantalla().getMercado().actualizarMercado(pmerca);
+					juego.getMercado().actualizarMercado(pmerca);
+					break;
+				case Comando.RECIBIRCONECTADOS:
+					PaqueteInicioSesion pini = (PaqueteInicioSesion) gson.fromJson(objetoLeido, PaqueteInicioSesion.class);
+					juego.getSala().actualizarUsuarios(pini.getUsuarios());
+					break;
+				case Comando.MENSAJEPRIVADO:
+					PaqueteChatPrivado pcp = (PaqueteChatPrivado) gson.fromJson(objetoLeido, PaqueteChatPrivado.class);
+					if(juego.getConversaciones().get(pcp.getUsuario().getId())==null){
+						juego.getConversaciones().put(pcp.getUsuario().getId(), new VentanaChat(pcp.getUsuario(),juego));
+					}
+					else
+						juego.getConversaciones().get(pcp.getUsuario().getId()).setVisible(true);
+					juego.getConversaciones().get(pcp.getUsuario().getId()).actualizar(pcp.getMsj());
 				}	
 			}
 		} catch (Exception e) {

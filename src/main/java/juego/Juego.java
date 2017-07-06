@@ -3,6 +3,8 @@ package juego;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
@@ -18,6 +20,9 @@ import mensajeria.PaquetePersonaje;
 public class Juego implements Runnable {
 	
 	private Pantalla pantalla;
+	private VentanaSala sala;
+	private VentanaMercado mercado;
+	private Map <Integer,VentanaChat> conversaciones;
 	private final String NOMBRE;
 	private final int ANCHO;
 	private final int ALTO;
@@ -51,6 +56,8 @@ public class Juego implements Runnable {
 		this.ANCHO = ancho;
 		this.cliente = cliente;
 		this.paquetePersonaje = pp;
+		this.sala = new VentanaSala(this);
+		conversaciones = new HashMap<Integer,VentanaChat>();
 		
 		// Inicializo la ubicacion del personaje 
 		ubicacionPersonaje = new PaqueteMovimiento();
@@ -223,5 +230,21 @@ public class Juego implements Runnable {
 	
 	public Pantalla getPantalla() {
 		return pantalla;
+	}
+
+	public VentanaSala getSala() {
+		return sala;
+	}
+	public VentanaMercado getMercado() {
+		return mercado;
+	}
+
+	public void setMercado(VentanaMercado ventanaMercado) {
+		this.mercado = ventanaMercado;
+		
+	}
+	
+	public Map<Integer, VentanaChat> getConversaciones() {
+		return conversaciones;
 	}
 }

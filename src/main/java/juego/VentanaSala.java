@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 
 import mensajeria.Comando;
 import mensajeria.PaqueteMensajeSala;
+import mensajeria.Usuario;
 
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
@@ -37,8 +38,11 @@ public class VentanaSala extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextArea textArea;
+	private int idPersonaje;
+	private DefaultListModel<Usuario> listModel;
+	private Juego juego;
 /// CODIGO AGREGADO-----------------------------------------------------------------------------------------------------------------
-	private JList<String> countryList;
+	private JList<Usuario> countryList;
 	private JScrollPane scrollPane;
 /// CODIGO AGREGADO-----------------------------------------------------------------------------------------------------------------
 	/**
@@ -106,9 +110,10 @@ public class VentanaSala extends JFrame {
 //      }
 //  });
 //	  /// CODIGO AGREGADO-----------------------------------------------------------------------------------------------------------------
-	  
+	  idPersonaje = juego.getPersonaje().getId();
 	  this.setTitle("Chat");
-	  
+	  this.juego = juego;
+	  this.setVisible(false);
 	  gson = new Gson();
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -148,11 +153,9 @@ public class VentanaSala extends JFrame {
 		
 		
 		// Etapa de creacion del panel lateral de usuarios
-    DefaultListModel<String> listModel = new DefaultListModel<>();
+     listModel = new DefaultListModel<>();
     /// Aca adentro hay que meter la lista de los usuarios conectados para luego seleccionarlos y chatear con ellos
-    listModel.addElement("USA");
-    listModel.addElement("India");
-    listModel.addElement("Vietnam");
+    //listModel.addElement("");
     /// Aca adentro hay que meter la lista de los usuarios conectados para luego seleccionarlos y chatear con ellos
     countryList = new JList<>(listModel);
     getContentPane().add(countryList);
@@ -163,8 +166,15 @@ public class VentanaSala extends JFrame {
       public void valueChanged(ListSelectionEvent e) {
         /// Aca adentro hay que meter un codigo que abra un chat privado con este usuario seleccionado
         if (!e.getValueIsAdjusting()) {
-          final List<String> selectedValuesList = countryList.getSelectedValuesList();
-          System.out.println(selectedValuesList);
+          final List<Usuario> selectedValuesList = countryList.getSelectedValuesList();
+          	if(juego.getConversaciones().get(selectedValuesList.get(0))==null){
+          		juego.getConversaciones().put(selectedValuesList.get(0).getId(), new VentanaChat(selectedValuesList.get(0),juego));
+          		
+          	}
+          	else
+          		juego.getConversaciones().get(selectedValuesList.get(0)).setVisible(true);
+          
+          
         }
         /// Aca adentro hay que meter un codigo que abra un chat privado con este usuario seleccionado
       }
@@ -180,5 +190,13 @@ public class VentanaSala extends JFrame {
 	public void actualizar(PaqueteMensajeSala pqs) {
 		this.textArea.setText(textArea.getText()+pqs.getMsj2());
 		
+	}
+
+	public void actualizarUsuarios(List<Usuario> usuarios) {
+		listModel.removeAllElements();
+		for( Usuario sdas: usuarios){
+			if(sdas.getId()!=idPersonaje)
+			listModel.addElement(sdas);
+		}	
 	}
 }
