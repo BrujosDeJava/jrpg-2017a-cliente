@@ -2,11 +2,14 @@ package juego;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.ScrollPane;
 import java.awt.TextField;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import com.google.gson.Gson;
 
@@ -14,21 +17,30 @@ import mensajeria.Comando;
 import mensajeria.PaqueteMensajeSala;
 
 import javax.swing.JTextPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.SwingUtilities;
 
 public class VentanaSala extends JFrame {
 	private Gson gson;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextArea textArea;
-
+/// CODIGO AGREGADO-----------------------------------------------------------------------------------------------------------------
+	private JList<String> countryList;
+	private JScrollPane scrollPane;
+/// CODIGO AGREGADO-----------------------------------------------------------------------------------------------------------------
 	/**
 	 * Launch the application.
 	 */
@@ -49,7 +61,55 @@ public class VentanaSala extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaSala(Juego juego) {
-		gson = new Gson();
+//
+//	  /// CODIGO AGREGADO-----------------------------------------------------------------------------------------------------------------
+//    DefaultListModel<String> listModel = new DefaultListModel<>();
+//    ///MODIFICAR  
+//    listModel.addElement("USA");
+//    listModel.addElement("India");
+//    listModel.addElement("Vietnam");
+//    listModel.addElement("Canada");
+//    listModel.addElement("Denmark");
+//    listModel.addElement("France");
+//    listModel.addElement("Great Britain");
+//    listModel.addElement("Japan");
+//    listModel.addElement("adad");
+//    listModel.addElement("zczc");
+//    listModel.addElement("qeqe");
+//    listModel.addElement("1313");
+//    listModel.addElement("kjkj");
+//  ///MODIFICAR
+//    
+//    // create the list
+//    countryList = new JList<>(listModel);
+//    add(countryList);
+//
+//    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//    this.setTitle("JList Example");
+//    this.setSize(200, 200);
+//    this.setLocationRelativeTo(null);
+//    this.setVisible(true);
+//    
+//    add(new JScrollPane(countryList));
+//    countryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//    
+//    countryList.addListSelectionListener(new ListSelectionListener() {
+//      @Override
+//      public void valueChanged(ListSelectionEvent e)
+//      {
+//        ///MODIFICAR
+//          if(!e.getValueIsAdjusting()) {
+//              final List<String> selectedValuesList = countryList.getSelectedValuesList();
+//              System.out.println(selectedValuesList);
+//          }
+//        ///MODIFICAR
+//      }
+//  });
+//	  /// CODIGO AGREGADO-----------------------------------------------------------------------------------------------------------------
+	  
+	  this.setTitle("Chat");
+	  
+	  gson = new Gson();
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -71,9 +131,6 @@ public class VentanaSala extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-				
-				
 			}
 		});
 		btnEnviar.setBounds(335, 216, 89, 23);
@@ -85,8 +142,39 @@ public class VentanaSala extends JFrame {
 		textField.setColumns(10);
 		
 		textArea = new JTextArea();
-		textArea.setBounds(10, 11, 315, 187);
-		contentPane.add(textArea);
+		JScrollPane sp = new JScrollPane(textArea);
+		sp.setBounds(10, 11, 315, 187);
+		contentPane.add(sp);
+		
+		
+		// Etapa de creacion del panel lateral de usuarios
+    DefaultListModel<String> listModel = new DefaultListModel<>();
+    /// Aca adentro hay que meter la lista de los usuarios conectados para luego seleccionarlos y chatear con ellos
+    listModel.addElement("USA");
+    listModel.addElement("India");
+    listModel.addElement("Vietnam");
+    /// Aca adentro hay que meter la lista de los usuarios conectados para luego seleccionarlos y chatear con ellos
+    countryList = new JList<>(listModel);
+    getContentPane().add(countryList);
+    countryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    
+    countryList.addListSelectionListener(new ListSelectionListener() {
+      @Override
+      public void valueChanged(ListSelectionEvent e) {
+        /// Aca adentro hay que meter un codigo que abra un chat privado con este usuario seleccionado
+        if (!e.getValueIsAdjusting()) {
+          final List<String> selectedValuesList = countryList.getSelectedValuesList();
+          System.out.println(selectedValuesList);
+        }
+        /// Aca adentro hay que meter un codigo que abra un chat privado con este usuario seleccionado
+      }
+    });
+    
+    scrollPane = new JScrollPane(countryList);
+    scrollPane.setBounds(335, 11, 89, 187);
+    
+    contentPane.add(scrollPane);
+		
 	}
 
 	public void actualizar(PaqueteMensajeSala pqs) {
