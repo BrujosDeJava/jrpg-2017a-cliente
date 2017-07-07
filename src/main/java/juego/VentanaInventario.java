@@ -65,7 +65,6 @@ public class VentanaInventario extends JFrame {
 						auxi.setTipo(i+1);
 						aux.añadir(auxi);
 						}
-					System.out.println(aux.getMochila());
 					PaquetePersonaje pp = new PaquetePersonaje();
 					pp.setNombre("Raul");
 					pp.setCasta("Asesino");

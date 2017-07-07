@@ -127,7 +127,6 @@ public class EscuchaMensajes extends Thread {
 					
 					PaqueteChatPrivado pcp = (PaqueteChatPrivado) gson.fromJson(objetoLeido, PaqueteChatPrivado.class);
 					if(juego.getConversaciones().get(pcp.getUsuario().getId())==null){
-						System.out.println("EscuchaMensajes"+ pcp.getUsuario().getId());
 						juego.getConversaciones().put(pcp.getUsuario().getId(), new VentanaChat(pcp.getUsuario(),juego));
 					}
 					else

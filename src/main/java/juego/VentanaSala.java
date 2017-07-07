@@ -106,7 +106,6 @@ public class VentanaSala extends JFrame {
 //        ///MODIFICAR
 //          if(!e.getValueIsAdjusting()) {
 //              final List<String> selectedValuesList = countryList.getSelectedValuesList();
-//              System.out.println(selectedValuesList);
 //          }
 //        ///MODIFICAR
 //      }
@@ -177,13 +176,10 @@ public class VentanaSala extends JFrame {
           final List<Usuario> selectedValuesList = countryList.getSelectedValuesList();
 
           if (juego.getConversaciones().get(selectedValuesList.get(0).getId()) == null) {
-            System.out.println("ID: " + juego.getConversaciones().get(selectedValuesList.get(0).getId()));
             juego.getConversaciones().put(selectedValuesList.get(0).getId(),
                 new VentanaChat(selectedValuesList.get(0), juego));
-            System.out.println("ID: " + juego.getConversaciones().get(selectedValuesList.get(0).getId()));
 
           } else {
-            System.out.println("Ventana: " + juego.getConversaciones().get(selectedValuesList.get(0).getId()));
             juego.getConversaciones().get(selectedValuesList.get(0).getId()).setVisible(true);
           }
         }
@@ -198,13 +194,10 @@ public class VentanaSala extends JFrame {
 //          final List<Usuario> selectedValuesList = countryList.getSelectedValuesList();
 //          
 //          	if(juego.getConversaciones().get(selectedValuesList.get(0).getId())==null){
-//          		System.out.println("ID: "+juego.getConversaciones().get(selectedValuesList.get(0).getId()));
 //          		juego.getConversaciones().put(selectedValuesList.get(0).getId(), new VentanaChat(selectedValuesList.get(0),juego));
-//          		System.out.println("ID: "+juego.getConversaciones().get(selectedValuesList.get(0).getId()));
 //
 //          	}
 //          	else{
-//          		System.out.println("Ventana: "+juego.getConversaciones().get(selectedValuesList.get(0).getId()));
 //          		juego.getConversaciones().get(selectedValuesList.get(0).getId()).setVisible(true);
 //          	}
 //        }

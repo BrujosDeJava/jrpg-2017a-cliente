@@ -202,7 +202,6 @@ public class EstadoBatalla extends Estado {
 		itemAux.setNombre(it.getNombre());
 		itemAux.setSalud(it.getBounsSalud());
 		itemAux.setTipo(it.getTipo());
-		System.out.println(itemAux);
 		return itemAux;
 	}
 
@@ -316,7 +315,6 @@ public class EstadoBatalla extends Estado {
 			paquetePersonaje.setFuerza(personaje.getFuerza());
 			paquetePersonaje.setInteligencia(personaje.getInteligencia());
 			paquetePersonaje.setInv(personaje.getInventario());
-			System.out.println("La Mochila: "+paquetePersonaje.getInv().getMochila());
 			
 			paqueteEnemigo.setSaludTope(enemigo.getSaludTope());
 			paqueteEnemigo.setEnergiaTope(enemigo.getEnergiaTope());

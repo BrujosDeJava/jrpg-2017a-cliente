@@ -90,7 +90,6 @@ public class VentanaMercado extends JFrame {
           
           final List<Item> selectedValuesList = listaDeItems.getSelectedValuesList();
           		requerido = selectedValuesList.get(0);
-          		System.out.println("Requerido "+requerido);
         }
       }
     });
@@ -102,7 +101,6 @@ public class VentanaMercado extends JFrame {
             
             final List<Item> selectedValuesList = mochila.getSelectedValuesList();
       			ofrecido = selectedValuesList.get(0);
-      			System.out.println("Ofrecido "+ofrecido);
           }
         }
       });

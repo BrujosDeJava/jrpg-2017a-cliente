@@ -26,7 +26,6 @@ public class TestCliente {
 	@Test
 	public void testd(){
 		PaqueteMensajeSala pqs = new PaqueteMensajeSala("mesj");
-		System.out.println(pqs.getMsj2());
 	}
 	
 	
