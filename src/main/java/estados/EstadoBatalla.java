@@ -154,7 +154,7 @@ public class EstadoBatalla extends Estado {
 							juego.getPersonaje().setNivel(personaje.getNivel());
 							juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(), MenuInfoPersonaje.menuSubirNivel);
 						}
-						personaje.recibirObjeto(new Item(1,1));
+						personaje.recibirObjeto(generarObjeto());
 						finalizarBatalla();
 						Estado.setEstado(juego.getEstadoJuego());
 					} else {	
@@ -189,7 +189,6 @@ public class EstadoBatalla extends Estado {
 			cliente.getEntrada().close();
 			cliente.getSocket().close();
 		} catch (JsonSyntaxException | ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

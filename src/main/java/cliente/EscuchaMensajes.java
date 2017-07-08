@@ -101,6 +101,7 @@ public class EscuchaMensajes extends Thread {
 				case Comando.ACTUALIZARPERSONAJE:
 					paquetePersonaje = (PaquetePersonaje) gson.fromJson(objetoLeido, PaquetePersonaje.class);
 					personajesConectados.remove(paquetePersonaje.getId());
+					juego.getMercado().actualizarMochila();
 					personajesConectados.put(paquetePersonaje.getId(), paquetePersonaje);
 					
 					if(juego.getPersonaje().getId() == paquetePersonaje.getId()) {
@@ -167,7 +168,11 @@ public class EscuchaMensajes extends Thread {
 						juego.getPersonaje().getInv().desequipar(aDesequipar);
 						juego.getPersonaje().getInv().añadir(aEquipar);
 						juego.getMercado().actualizarMochila();
-						PaqueteMochila pm = new PaqueteMochila(juego.getPersonaje().getInv().getMochila(), 1);
+						PaquetePersonaje pp = juego.getPersonaje();
+						pp.setComando(Comando.ACTUALIZARPERSONAJE);
+						juego.getCliente().getSalida().writeObject(gson.toJson(pp));
+
+						PaqueteMochila pm = new PaqueteMochila(juego.getPersonaje().getInv().getMochila(), juego.getPersonaje().getId());
 						pm.setComando(Comando.MOCHILA);
 						juego.getCliente().getSalida().writeObject(gson.toJson(pm));
 						

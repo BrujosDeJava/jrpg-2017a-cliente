@@ -70,8 +70,7 @@ public class VentanaSala extends JFrame {
 
 	  setResizable(false);
 	  
-	  setLocationRelativeTo(null);
-	  
+	  setLocationRelativeTo(null); 
 	  idPersonaje = juego.getPersonaje().getId();
 	  this.setTitle("Chat");
 	  this.juego = juego;
