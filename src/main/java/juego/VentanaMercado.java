@@ -29,6 +29,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -36,7 +37,7 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
-public class VentanaMercado extends JFrame {
+public class VentanaMercado extends JDialog {
 
 	private JPanel contentPane;
 	private JTextPane textPane;
@@ -55,6 +56,12 @@ public class VentanaMercado extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaMercado(Juego juego) {
+	  
+	  setResizable(false);
+	  this.setTitle("Inventario");
+	  
+	  this.setModal(true);
+	  
 		this.juego = juego;
 		gson = new Gson();
 		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -74,7 +81,7 @@ public class VentanaMercado extends JFrame {
     
     listaDeItems.setBounds(1, 1, 134, 351);
     getContentPane().add(listaDeItems);
-    mochila.setBounds(137,46,95,248);
+    mochila.setBounds(10,190,229,110);
     getContentPane().add(mochila);
     
     listaDeItems.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -130,7 +137,7 @@ public class VentanaMercado extends JFrame {
       });
 		
 		JScrollPane scrollPane = new JScrollPane(listaDeItems);
-		scrollPane.setBounds(10, 44, 106, 320);
+		scrollPane.setBounds(10, 44, 229, 110);
 		contentPane.add(scrollPane);
 		
 		
@@ -152,7 +159,7 @@ public class VentanaMercado extends JFrame {
 		
 		
 		
-		btnIntercambiar.setBounds(137, 322, 95, 23);
+		btnIntercambiar.setBounds(10, 311, 229, 53);
 		contentPane.add(btnIntercambiar);
 		
 		JLabel lblEnVenta = new JLabel("Items disponibles");
@@ -160,7 +167,7 @@ public class VentanaMercado extends JFrame {
 		contentPane.add(lblEnVenta);
 		
 		JLabel lblTusItems = new JLabel("Mochila");
-		lblTusItems.setBounds(155, 21, 63, 14);
+		lblTusItems.setBounds(10, 165, 63, 14);
 		contentPane.add(lblTusItems);
 		
 		
