@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import com.google.gson.Gson;
@@ -31,6 +32,9 @@ public class VentanaChat extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaChat(Usuario destinatario, Juego juego) {
+	  
+	  setResizable(false);
+	  
 		gson = new Gson();
 		this.destinatario = destinatario;
 		this.setVisible(true);
@@ -43,10 +47,11 @@ public class VentanaChat extends JFrame {
 		contentPane.setLayout(null);
 		
 		textPane = new JTextPane();
-		textPane.setBounds(10, 11, 414, 179);
-		contentPane.add(textPane);
+    textPane.setEditable(false);
+//		textPane.setBounds(10, 11, 414, 179);
+//		contentPane.add(textPane);
 		
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("Enviar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String msj = textPane.getText()+juego.getPersonaje().getNombre()+": "+textField.getText()+
@@ -62,7 +67,7 @@ public class VentanaChat extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
+				textField.setText("");
 				
 			}
 		});
@@ -73,6 +78,11 @@ public class VentanaChat extends JFrame {
 		textField.setBounds(10, 201, 315, 49);
 		contentPane.add(textField);
 		textField.setColumns(10);
+		
+		JScrollPane sp = new JScrollPane(textPane);
+    sp.setBounds(10, 11, 414, 179);
+    contentPane.add(sp);
+		
 	}
 	public void actualizar(String msj) {
 		textPane.setText("");

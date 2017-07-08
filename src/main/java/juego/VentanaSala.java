@@ -22,6 +22,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -65,6 +67,11 @@ public class VentanaSala extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaSala(Juego juego) {
+
+	  setResizable(false);
+	  
+	  setLocationRelativeTo(null);
+	  
 	  idPersonaje = juego.getPersonaje().getId();
 	  this.setTitle("Chat");
 	  this.juego = juego;
@@ -91,6 +98,7 @@ public class VentanaSala extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				textField.setText("");
 			}
 		});
 		btnEnviar.setBounds(335, 216, 89, 23);
@@ -102,6 +110,7 @@ public class VentanaSala extends JFrame {
 		textField.setColumns(10);
 		
 		textArea = new JTextArea();
+		textArea.setEditable(false);
 		JScrollPane sp = new JScrollPane(textArea);
 		sp.setBounds(10, 11, 315, 187);
 		contentPane.add(sp);
@@ -115,28 +124,43 @@ public class VentanaSala extends JFrame {
     countryList = new JList<>(listModel);
     getContentPane().add(countryList);
     countryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    
+    countryList.addMouseListener(new MouseAdapter() {
+      public void mouseClicked(MouseEvent evt) {
+        JList list = (JList) evt.getSource();
+        if (evt.getClickCount() == 2) {
 
-    countryList.addListSelectionListener(new ListSelectionListener() {
-      @Override
-      public void valueChanged(ListSelectionEvent e) {
-        /// Aca adentro hay que meter un codigo que abra un chat privado con este usuario seleccionado
-        if (!e.getValueIsAdjusting()) {
           final List<Usuario> selectedValuesList = countryList.getSelectedValuesList();
-          
-          	if(juego.getConversaciones().get(selectedValuesList.get(0).getId())==null){
-          		System.out.println("ID: "+juego.getConversaciones().get(selectedValuesList.get(0).getId()));
-          		juego.getConversaciones().put(selectedValuesList.get(0).getId(), new VentanaChat(selectedValuesList.get(0),juego));
-          		System.out.println("ID: "+juego.getConversaciones().get(selectedValuesList.get(0).getId()));
 
-          	}
-          	else{
-          		System.out.println("Ventana: "+juego.getConversaciones().get(selectedValuesList.get(0).getId()));
-          		juego.getConversaciones().get(selectedValuesList.get(0).getId()).setVisible(true);
-          	}
+          if (juego.getConversaciones().get(selectedValuesList.get(0).getId()) == null) {
+            juego.getConversaciones().put(selectedValuesList.get(0).getId(),
+                new VentanaChat(selectedValuesList.get(0), juego));
+
+          } else {
+            juego.getConversaciones().get(selectedValuesList.get(0).getId()).setVisible(true);
+          }
         }
-        /// Aca adentro hay que meter un codigo que abra un chat privado con este usuario seleccionado
       }
     });
+    
+//    countryList.addListSelectionListener(new ListSelectionListener() {
+//      @Override
+//      public void valueChanged(ListSelectionEvent e) {
+//        /// Aca adentro hay que meter un codigo que abra un chat privado con este usuario seleccionado
+//        if (!e.getValueIsAdjusting()) {
+//          final List<Usuario> selectedValuesList = countryList.getSelectedValuesList();
+//          
+//          	if(juego.getConversaciones().get(selectedValuesList.get(0).getId())==null){
+//          		juego.getConversaciones().put(selectedValuesList.get(0).getId(), new VentanaChat(selectedValuesList.get(0),juego));
+//
+//          	}
+//          	else{
+//          		juego.getConversaciones().get(selectedValuesList.get(0).getId()).setVisible(true);
+//          	}
+//        }
+//        /// Aca adentro hay que meter un codigo que abra un chat privado con este usuario seleccionado
+//      }
+//    });
     
     scrollPane = new JScrollPane(countryList);
     scrollPane.setBounds(335, 11, 89, 187);
