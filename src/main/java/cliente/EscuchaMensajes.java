@@ -166,7 +166,7 @@ public class EscuchaMensajes extends Thread {
 						}
 						
 						juego.getPersonaje().getInv().desequipar(aDesequipar);
-						juego.getPersonaje().getInv().añadir(aEquipar);
+						juego.getPersonaje().getInv().aniadir(aEquipar);
 						juego.getMercado().actualizarMochila();
 						PaquetePersonaje pp = juego.getPersonaje();
 						pp.setComando(Comando.ACTUALIZARPERSONAJE);

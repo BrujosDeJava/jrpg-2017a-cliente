@@ -161,7 +161,7 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 		this.estado = estado;
 	}
 	public void ganarUnItem(Item i){
-		this.inv.añadir(i);
+		this.inv.aniadir(i);
 	}
 	@Override
 	public String toString() {

@@ -54,7 +54,7 @@ public class VentanaInventario extends JFrame {
 						auxi.setDefensa(i);
 						auxi.setEnergia(i);
 						auxi.setTipo(i+1);
-						aux.añadir(auxi);
+						aux.aniadir(auxi);
 						}
 					for(int i=0;i<6;i++){
 						Item auxi = new Item(i+1,i+1);
@@ -63,7 +63,7 @@ public class VentanaInventario extends JFrame {
 						auxi.setDefensa(i);
 						auxi.setEnergia(i);
 						auxi.setTipo(i+1);
-						aux.añadir(auxi);
+						aux.aniadir(auxi);
 						}
 					PaquetePersonaje pp = new PaquetePersonaje();
 					pp.setNombre("Raul");
