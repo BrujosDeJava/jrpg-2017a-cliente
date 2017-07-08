@@ -27,6 +27,7 @@ import mensajeria.PaqueteInicioSesion;
 import mensajeria.PaqueteIntercambio;
 import mensajeria.PaqueteMensajeSala;
 import mensajeria.PaqueteMercado;
+import mensajeria.PaqueteMochila;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 
@@ -127,7 +128,6 @@ public class EscuchaMensajes extends Thread {
 					
 					PaqueteChatPrivado pcp = (PaqueteChatPrivado) gson.fromJson(objetoLeido, PaqueteChatPrivado.class);
 					if(juego.getConversaciones().get(pcp.getUsuario().getId())==null){
-						System.out.println("EscuchaMensajes"+ pcp.getUsuario().getId());
 						juego.getConversaciones().put(pcp.getUsuario().getId(), new VentanaChat(pcp.getUsuario(),juego));
 					}
 					else
@@ -155,7 +155,6 @@ public class EscuchaMensajes extends Thread {
 					if(pi.getRespuesta()){
 						Item aEquipar;
 						Item aDesequipar;
-						
 						if(pi.getOfrecido().getDuenio()==juego.getPersonaje().getId()){
 							aEquipar = pi.getRequerido();
 							aDesequipar = pi.getOfrecido();
@@ -167,7 +166,10 @@ public class EscuchaMensajes extends Thread {
 						
 						juego.getPersonaje().getInv().desequipar(aDesequipar);
 						juego.getPersonaje().getInv().añadir(aEquipar);
-						
+						juego.getMercado().actualizarMochila();
+						PaqueteMochila pm = new PaqueteMochila(juego.getPersonaje().getInv().getMochila(), 1);
+						pm.setComando(Comando.MOCHILA);
+						juego.getCliente().getSalida().writeObject(gson.toJson(pm));
 						
 					}else
 						JOptionPane.showMessageDialog(null, "No se completo el intercambio");

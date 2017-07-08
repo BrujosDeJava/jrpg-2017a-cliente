@@ -22,7 +22,7 @@ public class Comando {
 	public static final int MENSAJEPRIVADO = 123123;
 	public static final int INTERCAMBIO = 666;
 	public static final int RESPUESTAINTERCAMBIO = 777;
-	
+	public static final int SALIRMERCADO = 27;
 	
 	//
 }

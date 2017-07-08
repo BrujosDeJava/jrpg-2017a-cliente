@@ -65,51 +65,6 @@ public class VentanaSala extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaSala(Juego juego) {
-//
-//	  /// CODIGO AGREGADO-----------------------------------------------------------------------------------------------------------------
-//    DefaultListModel<String> listModel = new DefaultListModel<>();
-//    ///MODIFICAR  
-//    listModel.addElement("USA");
-//    listModel.addElement("India");
-//    listModel.addElement("Vietnam");
-//    listModel.addElement("Canada");
-//    listModel.addElement("Denmark");
-//    listModel.addElement("France");
-//    listModel.addElement("Great Britain");
-//    listModel.addElement("Japan");
-//    listModel.addElement("adad");
-//    listModel.addElement("zczc");
-//    listModel.addElement("qeqe");
-//    listModel.addElement("1313");
-//    listModel.addElement("kjkj");
-//  ///MODIFICAR
-//    
-//    // create the list
-//    countryList = new JList<>(listModel);
-//    add(countryList);
-//
-//    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//    this.setTitle("JList Example");
-//    this.setSize(200, 200);
-//    this.setLocationRelativeTo(null);
-//    this.setVisible(true);
-//    
-//    add(new JScrollPane(countryList));
-//    countryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//    
-//    countryList.addListSelectionListener(new ListSelectionListener() {
-//      @Override
-//      public void valueChanged(ListSelectionEvent e)
-//      {
-//        ///MODIFICAR
-//          if(!e.getValueIsAdjusting()) {
-//              final List<String> selectedValuesList = countryList.getSelectedValuesList();
-//              System.out.println(selectedValuesList);
-//          }
-//        ///MODIFICAR
-//      }
-//  });
-//	  /// CODIGO AGREGADO-----------------------------------------------------------------------------------------------------------------
 	  idPersonaje = juego.getPersonaje().getId();
 	  this.setTitle("Chat");
 	  this.juego = juego;

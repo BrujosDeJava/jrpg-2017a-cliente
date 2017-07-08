@@ -18,10 +18,12 @@ import com.google.gson.Gson;
 import dominio.Item;
 import dominio.Mercado;
 import mensajeria.Comando;
+import mensajeria.Paquete;
 import mensajeria.PaqueteIntercambio;
 import mensajeria.PaqueteMercado;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
@@ -29,6 +31,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
@@ -83,14 +87,32 @@ public class VentanaMercado extends JFrame {
     	mochilaModel.addElement(i);
     }
     
+    
+    this.addWindowListener(new WindowAdapter() {
+		public void windowClosing(WindowEvent evt) {
+			mochila.clearSelection();
+			listaDeItems.clearSelection();
+			try {
+				Paquete p = new Paquete();
+				p.setComando(Comando.SALIRMERCADO);
+				juego.getCliente().getSalida().writeObject(gson.toJson(p));
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	});
+    
+    
+    
     listaDeItems.addListSelectionListener(new ListSelectionListener() {
       @Override
       public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
           
           final List<Item> selectedValuesList = listaDeItems.getSelectedValuesList();
+          if(!selectedValuesList.isEmpty())
           		requerido = selectedValuesList.get(0);
-          		System.out.println("Requerido "+requerido);
         }
       }
     });
@@ -101,8 +123,8 @@ public class VentanaMercado extends JFrame {
           if (!e.getValueIsAdjusting()) {
             
             final List<Item> selectedValuesList = mochila.getSelectedValuesList();
+            if(!selectedValuesList.isEmpty())
       			ofrecido = selectedValuesList.get(0);
-      			System.out.println("Ofrecido "+ofrecido);
           }
         }
       });
@@ -145,7 +167,9 @@ public class VentanaMercado extends JFrame {
 	}
 	
 	public void actualizarMercado(PaqueteMercado pm){
-		
+	
+		mochila.clearSelection();
+		listaDeItems.clearSelection();
 		listModel.removeAllElements();
 		Mercado merca = pm.getMercado();
 		for(Integer codigo :merca.getMochilas().keySet()){			
@@ -157,5 +181,14 @@ public class VentanaMercado extends JFrame {
 		}
 		}
 		
+	}
+	
+	public void actualizarMochila(){
+		mochilaModel.removeAllElements();
+		List<Item> lista = juego.getPersonaje().getInv().getMochila();
+	    for(Item i: lista){
+	    	i.setDuenio(juego.getPersonaje().getId());
+	    	mochilaModel.addElement(i);
+	    }
 	}
 }
